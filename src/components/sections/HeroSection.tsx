@@ -14,7 +14,12 @@ import { siteConfig, keyStats, heroMedia } from "@/data";
 
 const ROTATING_WORDS = ["Excellence.", "Character.", "Leadership.", "Ambition.", "Innovation."];
 
-export default function HeroSection() {
+interface HeroSectionProps {
+  onOpenTour?: () => void;
+  onOpenCalculator?: () => void;
+}
+
+export default function HeroSection({ onOpenTour, onOpenCalculator }: HeroSectionProps) {
   const [wordIndex, setWordIndex] = useState(0);
 
   useEffect(() => {
@@ -96,15 +101,26 @@ export default function HeroSection() {
                 <ArrowRight size={14} />
               </a>
 
-              <a
-                href={siteConfig.virtualTourUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700 hover:border-amber-400/40 text-slate-200 hover:text-white font-semibold text-xs sm:text-sm transition-all duration-200"
-              >
-                <Compass size={14} className="text-amber-400" />
-                <span>360° Virtual Campus Tour</span>
-              </a>
+              {onOpenTour ? (
+                <button
+                  type="button"
+                  onClick={onOpenTour}
+                  className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700 hover:border-amber-400/40 text-slate-200 hover:text-white font-semibold text-xs sm:text-sm transition-all duration-200 cursor-pointer"
+                >
+                  <Compass size={14} className="text-amber-400" />
+                  <span>360° Virtual Campus Tour</span>
+                </button>
+              ) : (
+                <a
+                  href={siteConfig.virtualTourUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700 hover:border-amber-400/40 text-slate-200 hover:text-white font-semibold text-xs sm:text-sm transition-all duration-200"
+                >
+                  <Compass size={14} className="text-amber-400" />
+                  <span>360° Virtual Campus Tour</span>
+                </a>
+              )}
             </motion.div>
 
             {/* Trust Highlights Strip */}

@@ -16,7 +16,11 @@ import {
 import { useTheme } from "next-themes";
 import { siteConfig, navLinks } from "@/data";
 
-export default function Navbar() {
+interface NavbarProps {
+  onOpenTour?: () => void;
+}
+
+export default function Navbar({ onOpenTour }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -69,15 +73,26 @@ export default function Navbar() {
               <span>{siteConfig.helpline}</span>
             </a>
 
-            <a
-              href={siteConfig.virtualTourUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden md:flex items-center gap-1 text-slate-300 hover:text-amber-400 transition-colors"
-            >
-              <Compass size={11} className="text-amber-400" />
-              <span>Virtual Tour</span>
-            </a>
+            {onOpenTour ? (
+              <button
+                type="button"
+                onClick={onOpenTour}
+                className="hidden md:flex items-center gap-1 text-slate-300 hover:text-amber-400 transition-colors cursor-pointer"
+              >
+                <Compass size={11} className="text-amber-400" />
+                <span>Virtual Tour</span>
+              </button>
+            ) : (
+              <a
+                href={siteConfig.virtualTourUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden md:flex items-center gap-1 text-slate-300 hover:text-amber-400 transition-colors"
+              >
+                <Compass size={11} className="text-amber-400" />
+                <span>Virtual Tour</span>
+              </a>
+            )}
 
             {/* Theme Toggle */}
             {mounted && (
