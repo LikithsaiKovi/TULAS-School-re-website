@@ -7,7 +7,7 @@ import { siteConfig } from "@/data";
 
 export default function CTASection() {
   return (
-    <section className="py-24 lg:py-32 bg-gradient-to-b from-slate-900 to-slate-950 text-white relative overflow-hidden border-t border-slate-800">
+    <section className="py-16 lg:py-20 bg-gradient-to-b from-slate-900 to-slate-950 text-white relative overflow-hidden border-t border-slate-800">
       {/* Background ambient lighting */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-amber-500/10 rounded-full blur-[160px] pointer-events-none" />
 

@@ -14,7 +14,7 @@ export default function FAQSection() {
   };
 
   return (
-    <section id="faqs" className="py-24 lg:py-32 bg-slate-900/40 text-white relative overflow-hidden">
+    <section id="faqs" className="py-16 lg:py-20 bg-slate-900/40 text-white relative overflow-hidden">
       {/* Background glow */}
       <div className="absolute top-1/2 left-1/3 w-[500px] h-[500px] bg-amber-500/5 rounded-full blur-[140px] pointer-events-none" />
 

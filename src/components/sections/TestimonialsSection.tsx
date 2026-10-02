@@ -35,7 +35,7 @@ export default function TestimonialsSection() {
     setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
 
   return (
-    <section id="testimonials" className="py-24 lg:py-32 bg-slate-900/50 text-white relative overflow-hidden">
+    <section id="testimonials" className="py-16 lg:py-20 bg-slate-900/50 text-white relative overflow-hidden">
       {/* Background radial gradient */}
       <div className="absolute top-1/3 left-10 w-[500px] h-[500px] bg-amber-500/5 rounded-full blur-[140px] pointer-events-none" />
 

@@ -15,7 +15,7 @@ export default function SportsSection() {
       : sportsList.filter((s) => s.category === selectedCategory);
 
   return (
-    <section id="sports" className="py-24 lg:py-32 bg-slate-950 text-white relative overflow-hidden">
+    <section id="sports" className="py-16 lg:py-20 bg-slate-950 text-white relative overflow-hidden">
       {/* Background Glow */}
       <div className="absolute top-1/2 right-10 w-[500px] h-[500px] bg-amber-500/5 rounded-full blur-[140px] pointer-events-none" />
 

@@ -38,7 +38,7 @@ const pillars = [
 
 export default function AboutSection() {
   return (
-    <section id="about" className="py-24 lg:py-32 bg-slate-900/40 text-slate-100 relative overflow-hidden">
+    <section id="about" className="py-16 lg:py-20 bg-slate-900/40 text-slate-100 relative overflow-hidden">
       {/* Decorative ambient background */}
       <div className="absolute top-1/2 left-0 w-72 h-72 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
@@ -46,7 +46,7 @@ export default function AboutSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="max-w-3xl mb-16 sm:mb-20">
+        <div className="max-w-3xl mb-10 sm:mb-12">
           <ScrollReveal>
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-bold uppercase tracking-wider mb-4">
               <Sparkles size={12} />

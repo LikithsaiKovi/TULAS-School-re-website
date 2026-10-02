@@ -19,7 +19,7 @@ export default function BoardingSection() {
   const [selectedRoutineIndex, setSelectedRoutineIndex] = useState(0);
 
   return (
-    <section id="boarding" className="py-24 lg:py-32 bg-slate-900/60 text-white relative overflow-hidden">
+    <section id="boarding" className="py-16 lg:py-20 bg-slate-900/60 text-white relative overflow-hidden">
       {/* Subtle background glow */}
       <div className="absolute top-1/4 left-10 w-96 h-96 bg-amber-500/5 rounded-full blur-[140px] pointer-events-none" />
 
