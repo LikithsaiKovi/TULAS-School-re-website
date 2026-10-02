@@ -3,11 +3,16 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, Phone, Compass, MapPin, ShieldCheck } from "lucide-react";
 import ScrollReveal from "@/components/animation/ScrollReveal";
+import { MagneticButton } from "@/components/animation/MagneticButton";
 import { siteConfig } from "@/data";
 
 export default function CTASection() {
   return (
-    <section className="py-16 lg:py-20 bg-gradient-to-b from-slate-900 to-slate-950 text-white relative overflow-hidden border-t border-slate-800">
+    <section
+      id="cta"
+      data-section-theme="cta"
+      className="py-16 lg:py-20 text-white relative overflow-hidden border-t border-white/5"
+    >
       {/* Background ambient lighting */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-amber-500/10 rounded-full blur-[160px] pointer-events-none" />
 
@@ -37,19 +42,21 @@ export default function CTASection() {
 
         <ScrollReveal delay={0.2}>
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <a
-              href={siteConfig.admissionsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-orange-500 text-slate-950 font-black text-sm sm:text-base shadow-2xl shadow-amber-500/30 hover:shadow-amber-500/50 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
-            >
-              <span>Apply for Admissions Online</span>
-              <ArrowRight size={18} />
-            </a>
+            <MagneticButton strength={0.3}>
+              <a
+                href={siteConfig.admissionsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2.5 px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-orange-500 text-slate-950 font-black text-sm sm:text-base shadow-2xl shadow-amber-500/30 hover:shadow-amber-500/50 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
+              >
+                <span>Apply for Admissions Online</span>
+                <ArrowRight size={18} />
+              </a>
+            </MagneticButton>
 
             <a
               href={`tel:${siteConfig.helpline}`}
-              className="inline-flex items-center gap-2 px-7 py-4 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 hover:text-white font-bold text-sm sm:text-base transition-colors cursor-pointer"
+              className="inline-flex items-center gap-2 px-7 py-4 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-200 hover:text-white font-bold text-sm sm:text-base transition-colors cursor-pointer"
             >
               <Phone size={16} className="text-amber-400" />
               <span>Call Helpline: {siteConfig.helpline}</span>

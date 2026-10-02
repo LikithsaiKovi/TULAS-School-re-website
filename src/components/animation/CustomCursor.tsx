@@ -1,61 +1,59 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion, useSpring, useMotionValue } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
+import { useSectionTheme } from "@/contexts/SectionThemeContext";
 
 /**
- * CustomCursor — An elegant interactive magnetic cursor ring.
- * - Leaves native cursor visible so users are never disoriented.
- * - Ring follows mouse with smooth spring physics.
- * - Expands and glows when hovering links/buttons.
- * - Auto-hidden on touch/mobile devices (pointer: coarse).
+ * CustomCursor — Spring-physics magnetic ring cursor.
+ *
+ * Design decisions:
+ * - Reads activeTheme from SectionThemeContext → ring color matches current section
+ * - Preserves native cursor (no cursor:none) to avoid disorientation
+ * - Spring config: light damping for "lag" feel that communicates softness/quality
+ * - Grows & fills on hover over links/buttons/interactive elements
+ * - Hidden on touch devices (pointer:coarse) via CSS
  */
 export default function CustomCursor() {
   const [mounted, setMounted] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
+  const [isPointer, setIsPointer] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
+  const { activeTheme } = useSectionTheme();
 
-  const mouseX = useMotionValue(-100);
-  const mouseY = useMotionValue(-100);
+  const mouseX = useMotionValue(-200);
+  const mouseY = useMotionValue(-200);
 
-  const springConfig = { damping: 24, stiffness: 280, mass: 0.6 };
-  const smoothX = useSpring(mouseX, springConfig);
-  const smoothY = useSpring(mouseY, springConfig);
+  const springConfig = { damping: 22, stiffness: 260, mass: 0.55 };
+  const x = useSpring(mouseX, springConfig);
+  const y = useSpring(mouseY, springConfig);
 
   useEffect(() => {
-    // Disable on touch screens
     if (window.matchMedia("(pointer: coarse)").matches) return;
     setMounted(true);
 
-    const onMouseMove = (e: MouseEvent) => {
+    const onMove = (e: MouseEvent) => {
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
     };
 
-    const onMouseDown = () => setIsClicking(true);
-    const onMouseUp = () => setIsClicking(false);
-
-    window.addEventListener("mousemove", onMouseMove, { passive: true });
-    window.addEventListener("mousedown", onMouseDown);
-    window.addEventListener("mouseup", onMouseUp);
-
-    // Hover state on links & buttons
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement | null;
-      if (target && target.closest("a, button, input, select, textarea, [data-interactive]")) {
-        setIsHovered(true);
-      } else {
-        setIsHovered(false);
-      }
+    const onOver = (e: MouseEvent) => {
+      const el = e.target as HTMLElement;
+      setIsPointer(!!el.closest("a,button,input,select,textarea,[data-cursor-pointer]"));
     };
 
-    window.addEventListener("mouseover", handleMouseOver, { passive: true });
+    const onDown = () => setIsClicking(true);
+    const onUp   = () => setIsClicking(false);
+
+    window.addEventListener("mousemove",  onMove,  { passive: true });
+    window.addEventListener("mouseover",  onOver,  { passive: true });
+    window.addEventListener("mousedown",  onDown);
+    window.addEventListener("mouseup",    onUp);
 
     return () => {
-      window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("mousedown", onMouseDown);
-      window.removeEventListener("mouseup", onMouseUp);
-      window.removeEventListener("mouseover", handleMouseOver);
+      window.removeEventListener("mousemove",  onMove);
+      window.removeEventListener("mouseover",  onOver);
+      window.removeEventListener("mousedown",  onDown);
+      window.removeEventListener("mouseup",    onUp);
     };
   }, [mouseX, mouseY]);
 
@@ -63,22 +61,23 @@ export default function CustomCursor() {
 
   return (
     <motion.div
-      className="pointer-events-none fixed top-0 left-0 z-[9999] hidden md:block"
-      style={{
-        x: smoothX,
-        y: smoothY,
-        translateX: "-50%",
-        translateY: "-50%",
-      }}
+      className="pointer-events-none fixed top-0 left-0 z-[9998] hidden md:block"
+      style={{ x, y, translateX: "-50%", translateY: "-50%" }}
+      aria-hidden
     >
       <motion.div
         animate={{
-          scale: isClicking ? 0.7 : isHovered ? 1.8 : 1,
-          borderColor: isHovered ? "rgba(245, 158, 11, 0.9)" : "rgba(245, 158, 11, 0.4)",
-          backgroundColor: isHovered ? "rgba(245, 158, 11, 0.15)" : "rgba(245, 158, 11, 0)",
+          scale: isClicking ? 0.65 : isPointer ? 1.7 : 1,
+          borderColor: isPointer
+            ? activeTheme.accent
+            : `rgba(${activeTheme.accentRgb},0.45)`,
+          backgroundColor: isPointer
+            ? `rgba(${activeTheme.accentRgb},0.12)`
+            : `rgba(${activeTheme.accentRgb},0)`,
         }}
-        transition={{ duration: 0.15 }}
-        className="w-8 h-8 rounded-full border border-amber-400/50 backdrop-blur-[1px]"
+        transition={{ duration: 0.18, ease: "easeOut" }}
+        className="w-8 h-8 rounded-full border"
+        style={{ borderColor: `rgba(${activeTheme.accentRgb},0.45)` }}
       />
     </motion.div>
   );

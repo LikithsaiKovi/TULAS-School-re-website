@@ -32,7 +32,11 @@ export default function AdmissionsSection() {
   };
 
   return (
-    <section id="admissions" className="py-16 lg:py-20 bg-slate-950 text-white relative overflow-hidden">
+    <section
+      id="admissions"
+      data-section-theme="admissions"
+      className="py-16 lg:py-20 text-white relative overflow-hidden"
+    >
       {/* Background glow */}
       <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-amber-500/5 rounded-full blur-[160px] pointer-events-none" />
 

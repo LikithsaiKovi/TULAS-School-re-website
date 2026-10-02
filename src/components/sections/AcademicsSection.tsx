@@ -20,7 +20,11 @@ export default function AcademicsSection() {
   const currentTier = academicTiers.find((t) => t.id === activeTab) || academicTiers[0];
 
   return (
-    <section id="academics" className="py-16 lg:py-20 bg-slate-950 text-white relative overflow-hidden">
+    <section
+      id="academics"
+      data-section-theme="academics"
+      className="py-16 lg:py-20 text-white relative overflow-hidden"
+    >
       {/* Background radial gradient */}
       <div className="absolute top-1/3 right-1/4 w-[600px] h-[600px] bg-amber-500/5 rounded-full blur-[140px] pointer-events-none" />
 

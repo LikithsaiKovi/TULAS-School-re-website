@@ -44,7 +44,11 @@ const transitPoints = [
 
 export default function CampusLocationSection() {
   return (
-    <section id="location" className="py-16 lg:py-20 bg-slate-950/80 text-white relative overflow-hidden border-t border-slate-900">
+    <section
+      id="location"
+      data-section-theme="location"
+      className="py-16 lg:py-20 text-white relative overflow-hidden border-t border-white/5"
+    >
       {/* Ambient background glow */}
       <div className="absolute top-1/3 left-10 w-96 h-96 bg-emerald-500/5 rounded-full blur-[140px] pointer-events-none" />
 

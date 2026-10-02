@@ -1,107 +1,319 @@
 @import "tailwindcss";
 
-/* ─── Distinctive Deep Luxury Atmosphere ─────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────────────────────
+   TIS HOMEPAGE — GLOBAL DESIGN SYSTEM
+   Dynamic Section-Aware Theme Engine + Modern UI Foundations
+   
+   Architecture:
+   - CSS Custom Properties on <html> updated by SectionThemeContext (JS)
+   - Background ambient layer: fixed position, z-index -1, GPU composited
+   - All section-specific colors derive from --section-* variables
+   - Transitions are 900ms ease for smooth gradient morphing between sections
+───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Dynamic Section Theme Variables (set by JS via SectionThemeContext) ─── */
 :root {
-  --background: #fbfbfd;
-  --foreground: #090d16;
-  --card-bg: rgba(255, 255, 255, 0.85);
-  --card-border: rgba(226, 232, 240, 0.85);
-  --accent-gold: #d97706;
-  --accent-glow: rgba(217, 119, 6, 0.15);
+  /* Background gradient stops — morphed by section theme */
+  --section-bg-from: #020913;
+  --section-bg-via:  #040f22;
+  --section-bg-to:   #020913;
+  /* Primary accent color — drives borders, highlights, icon tints */
+  --section-accent: #f59e0b;
+  --section-accent-rgb: 245,158,11;
+  /* Ambient glow for radial orbs */
+  --section-glow: rgba(245,158,11,0.09);
+
+  /* Static palette constants */
+  --gold:    #f59e0b;
+  --gold-lt: #fbbf24;
+  --gold-dk: #d97706;
+  --white:   #f8fafc;
+  --muted:   #94a3b8;
+  --border:  rgba(255,255,255,0.08);
 }
 
-.dark {
-  --background: #040711;
-  --foreground: #f8fafc;
-  --card-bg: rgba(10, 16, 30, 0.75);
-  --card-border: rgba(255, 255, 255, 0.08);
-  --accent-gold: #f59e0b;
-  --accent-glow: rgba(245, 158, 11, 0.18);
+/* ── Base Reset & Smoothing ─────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* ─── Base Styles ────────────────────────────────────────────────────────── */
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 80px;
+  scroll-padding-top: 72px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "rlig" 1, "calt" 1, "kern" 1;
+  overflow-x: hidden;
 }
 
 body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  color: #f1f5f9;
+  font-family: var(--font-geist-sans), "Inter", system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
-  /* Ambient Multi-Layered Atmosphere */
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.12) 0px, transparent 50%),
-    radial-gradient(at 100% 20%, rgba(217, 119, 6, 0.06) 0px, transparent 45%),
-    radial-gradient(at 50% 60%, rgba(13, 148, 136, 0.05) 0px, transparent 50%),
-    radial-gradient(at 0% 100%, rgba(88, 28, 135, 0.08) 0px, transparent 50%);
-  background-attachment: fixed;
+  background-color: #020913;
+  line-height: 1.65;
 }
 
-/* ─── Custom Scrollbar ───────────────────────────────────────────────────── */
-::-webkit-scrollbar {
-  width: 7px;
+/* ── Fixed Ambient Background (GPU Layer) ──────────────────────────────── */
+/* Applied via a pseudo-element on body — avoids layout repaints entirely */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 20%, var(--section-glow) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 80% 70%, var(--section-glow) 0%, transparent 55%),
+    linear-gradient(160deg, var(--section-bg-from) 0%, var(--section-bg-via) 50%, var(--section-bg-to) 100%);
+  transition:
+    background 900ms cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
 }
 
-::-webkit-scrollbar-track {
-  background: #040711;
+/* ── Subtle Topographic Grid Overlay (visual depth, not distracting) ───── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
 }
 
+/* ── Modern Scrollbar ────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #f59e0b 0%, #b45309 100%);
+  background: linear-gradient(180deg, var(--section-accent) 0%, transparent 100%);
   border-radius: 999px;
+  transition: background 600ms ease;
 }
+::-webkit-scrollbar-thumb:hover { background: var(--section-accent); }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #f59e0b;
-}
-
+/* ── Text Selection ─────────────────────────────────────────────────────── */
 ::selection {
-  background: rgba(245, 158, 11, 0.35);
+  background: rgba(var(--section-accent-rgb), 0.35);
   color: #ffffff;
 }
 
-/* ─── Modern Frosted Glass Utilities ─────────────────────────────────────── */
-.glass-card {
-  background: rgba(12, 19, 36, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+/* ── Focus Ring (accessibility) ─────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--section-accent);
+  outline-offset: 3px;
+  border-radius: 6px;
 }
 
-.glass-card:hover {
-  border-color: rgba(245, 158, 11, 0.3);
-  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.5), 0 0 20px -5px rgba(245, 158, 11, 0.15);
+/* ── Typography Utilities ───────────────────────────────────────────────── */
+.text-accent {
+  color: var(--section-accent);
+  transition: color 600ms ease;
 }
 
-.glass-pill {
-  background: rgba(15, 23, 42, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.gradient-heading {
+  background: linear-gradient(135deg,
+    var(--section-accent) 0%,
+    color-mix(in oklch, var(--section-accent) 70%, white) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: background 600ms ease;
 }
 
-.gold-gradient-text {
+.gradient-heading-gold {
   background: linear-gradient(135deg, #fde68a 0%, #f59e0b 50%, #d97706 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-.emerald-gradient-text {
-  background: linear-gradient(135deg, #a7f3d0 0%, #10b981 50%, #059669 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* ── Glass Morphism System ──────────────────────────────────────────────── */
+.glass {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: border-color 300ms ease, box-shadow 300ms ease, background 600ms ease;
 }
 
-/* Subtle Shimmer Animation */
+.glass:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(var(--section-accent-rgb), 0.30);
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.4),
+    0 0 0 1px rgba(var(--section-accent-rgb), 0.15) inset,
+    0 0 24px rgba(var(--section-accent-rgb), 0.08);
+}
+
+.glass-dark {
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(24px) saturate(1.2);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.glass-accent {
+  background: rgba(var(--section-accent-rgb), 0.08);
+  border: 1px solid rgba(var(--section-accent-rgb), 0.20);
+  transition: all 300ms ease;
+}
+
+/* ── Accent Pill / Badge ────────────────────────────────────────────────── */
+.accent-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 9999px;
+  background: rgba(var(--section-accent-rgb), 0.10);
+  border: 1px solid rgba(var(--section-accent-rgb), 0.25);
+  color: var(--section-accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: all 600ms ease;
+}
+
+/* ── Section Heading ────────────────────────────────────────────────────── */
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  background: rgba(var(--section-accent-rgb), 0.08);
+  border: 1px solid rgba(var(--section-accent-rgb), 0.20);
+  color: var(--section-accent);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: all 600ms ease;
+  margin-bottom: 16px;
+}
+
+/* ── Glow Button (primary CTA) ───────────────────────────────────────────── */
+.btn-glow {
+  position: relative;
+  overflow: hidden;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.btn-glow::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, var(--section-accent), color-mix(in srgb, var(--section-accent) 60%, white));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+
+.btn-glow:hover {
+  transform: scale(1.03) translateY(-1px);
+  box-shadow: 0 8px 30px rgba(var(--section-accent-rgb), 0.35);
+}
+
+.btn-glow:active {
+  transform: scale(0.98) translateY(0);
+}
+
+/* ── Accent Border Glow ─────────────────────────────────────────────────── */
+.border-accent {
+  border-color: rgba(var(--section-accent-rgb), 0.25);
+  transition: border-color 600ms ease;
+}
+
+.border-accent:hover {
+  border-color: rgba(var(--section-accent-rgb), 0.55);
+}
+
+/* ── Section Divider ────────────────────────────────────────────────────── */
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(var(--section-accent-rgb), 0.30) 30%,
+    rgba(var(--section-accent-rgb), 0.30) 70%,
+    transparent
+  );
+  transition: background 600ms ease;
+}
+
+/* ── Floating Dock no-scrollbar ──────────────────────────────────────────── */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ── Shimmer Skeleton ────────────────────────────────────────────────────── */
 @keyframes shimmer {
-  0% { transform: translateX(-100%); }
+  0%   { transform: translateX(-100%); }
   100% { transform: translateX(200%); }
 }
 
-.animate-shimmer {
-  animation: shimmer 3s infinite ease-in-out;
+.shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+    transparent 0%, rgba(255,255,255,0.06) 50%, transparent 100%);
+  animation: shimmer 2.5s infinite;
+}
+
+/* ── Float Animation (ambient particles / badges) ───────────────────────── */
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+
+.animate-float {
+  animation: floatY 4s ease-in-out infinite;
+}
+
+/* ── Pulse Dot ───────────────────────────────────────────────────────────── */
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(1.3); }
+}
+
+.pulse-dot {
+  animation: pulseDot 1.8s ease-in-out infinite;
+}
+
+/* ── Announcement Ticker ─────────────────────────────────────────────────── */
+@keyframes ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ticker-track {
+  animation: ticker 28s linear infinite;
+  will-change: transform;
+}
+
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
+/* ── Section Transitions ──────────────────────────────────────────────────── */
+section {
+  position: relative;
+  /* Clear any inherited backgrounds — the body::before provides ambient */
+  background: transparent;
+}
+
+/* Sections may opt-in to a subtle surface color */
+.surface {
+  background: rgba(255,255,255,0.025);
+  backdrop-filter: blur(2px);
+}
+
+.surface-dark {
+  background: rgba(0,0,0,0.25);
 }

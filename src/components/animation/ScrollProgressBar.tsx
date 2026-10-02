@@ -1,29 +1,28 @@
 "use client";
 
-import { motion, useSpring } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useScrollProgress } from "@/hooks/useScrollProgress";
+import { useSectionTheme } from "@/contexts/SectionThemeContext";
 
 /**
- * ScrollProgressBar — A fixed-top gradient progress bar
- * that smoothly tracks page scroll depth using spring physics.
+ * ScrollProgressBar — Fixed top gradient bar.
+ * Color tracks the current section theme accent color.
+ * Spring physics ensure it feels physical, not digital-timer-like.
  */
 export default function ScrollProgressBar() {
-  const rawProgress = useScrollProgress();
+  const progress = useScrollProgress();
+  const { activeTheme } = useSectionTheme();
 
-  const smoothProgress = useSpring(rawProgress, {
-    damping: 30,
-    stiffness: 200,
-    mass: 0.5,
-  });
+  const spring = useSpring(progress, { damping: 30, stiffness: 300 });
+  const scaleX = useTransform(spring, [0, 1], [0, 1]);
 
   return (
     <motion.div
-      className="fixed top-0 left-0 right-0 h-[3px] z-[9998] origin-left"
+      className="fixed top-0 left-0 right-0 h-[3px] z-[100] origin-left"
       style={{
-        scaleX: smoothProgress,
-        background:
-          "linear-gradient(90deg, #f59e0b 0%, #ef4444 40%, #8b5cf6 100%)",
-        transformOrigin: "left",
+        scaleX,
+        background: `linear-gradient(90deg, ${activeTheme.accent}, color-mix(in srgb, ${activeTheme.accent} 70%, white))`,
+        transition: "background 600ms ease",
       }}
     />
   );

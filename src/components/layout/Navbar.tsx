@@ -3,198 +3,181 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Menu,
-  X,
-  Phone,
-  Sun,
-  Moon,
-  Compass,
-  ArrowRight,
-  Sparkles,
-  GraduationCap,
+  Menu, X, Phone, Sun, Moon, Compass, ArrowRight, GraduationCap,
 } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useSectionTheme, SECTION_THEMES } from "@/contexts/SectionThemeContext";
 import { siteConfig, navLinks } from "@/data";
+
+import AnnouncementTicker from "@/components/layout/AnnouncementTicker";
 
 interface NavbarProps {
   onOpenTour?: () => void;
 }
 
 export default function Navbar({ onOpenTour }: NavbarProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen,   setIsOpen]   = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const [mounted,  setMounted]  = useState(false);
   const { theme, setTheme } = useTheme();
+  const { activeTheme, activeSectionId } = useSectionTheme();
+
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 25);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const toggleTheme = useCallback(() => {
     setTheme(theme === "dark" ? "light" : "dark");
   }, [theme, setTheme]);
 
-  const handleNavClick = (href: string) => {
+  const navTo = (href: string) => {
     setIsOpen(false);
-    const el = document.querySelector(href);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    document.querySelector(href)?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
-      {/* ─── Top Notification & Info Ribbon (Compact for Laptops) ─── */}
-      <div className="bg-slate-900 border-b border-slate-800 text-slate-300 text-[11px] py-1.5 px-4 sm:px-6 lg:px-8">
+    <header className="fixed top-0 left-0 right-0 z-50">
+      <AnnouncementTicker />
+      {/* ── Main Navigation ─────────────────────────────────────── */}
+      <motion.div
+        animate={{
+          backgroundColor: scrolled ? "rgba(4,7,18,0.92)" : "rgba(4,7,18,0.70)",
+          boxShadow: scrolled
+            ? `0 1px 0 rgba(${activeTheme.accentRgb},0.15), 0 4px 30px rgba(0,0,0,0.4)`
+            : "none",
+        }}
+        transition={{ duration: 0.35 }}
+        className="backdrop-blur-xl border-b border-white/5 px-4 sm:px-6 lg:px-8 py-3"
+        style={{ borderBottomColor: scrolled ? `rgba(${activeTheme.accentRgb},0.15)` : "rgba(255,255,255,0.05)" }}
+      >
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2 truncate">
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 font-semibold text-[10px] shrink-0">
-              <Sparkles size={10} /> Admissions 2025–26 Open
-            </span>
-            <span className="hidden sm:inline text-slate-300 text-[11px]">
-              CBSE Co-Ed Boarding School (Classes IV to XII) · Dehradun
-            </span>
-          </div>
 
-          <div className="flex items-center gap-4 shrink-0">
-            <a
-              href="tel:+919837983791"
-              className="flex items-center gap-1.5 text-slate-200 hover:text-amber-400 font-medium transition-colors"
+          {/* Brand */}
+          <a href="#hero" onClick={(e) => { e.preventDefault(); navTo("#hero"); }}
+            className="flex items-center gap-2.5 group cursor-pointer shrink-0">
+            <motion.div
+              animate={{ boxShadow: `0 0 16px rgba(${activeTheme.accentRgb},0.25)` }}
+              transition={{ duration: 0.6 }}
+              className="w-9 h-9 rounded-xl flex items-center justify-center font-black shadow-md"
+              style={{ background: `linear-gradient(135deg, ${activeTheme.accent}, color-mix(in srgb, ${activeTheme.accent} 70%, white))` }}
             >
-              <Phone size={11} className="text-amber-400" />
-              <span>{siteConfig.helpline}</span>
-            </a>
+              <GraduationCap size={20} className="text-slate-950" />
+            </motion.div>
+            <div>
+              <div className="flex items-center gap-1.5">
+                <span className="font-extrabold text-sm sm:text-[15px] tracking-tight text-white group-hover:text-accent transition-colors">
+                  TULAS
+                </span>
+                <span
+                  className="text-[9px] font-bold px-1.5 py-0.5 rounded border uppercase tracking-wider transition-all duration-600"
+                  style={{ color: activeTheme.accent, borderColor: `rgba(${activeTheme.accentRgb},0.35)`, background: `rgba(${activeTheme.accentRgb},0.10)` }}
+                >
+                  School
+                </span>
+              </div>
+              <p className="text-[10px] text-slate-400 font-medium">
+                International Boarding · Dehradun
+              </p>
+            </div>
+          </a>
 
-            {onOpenTour ? (
-              <button
-                type="button"
-                onClick={onOpenTour}
-                className="hidden md:flex items-center gap-1 text-slate-300 hover:text-amber-400 transition-colors cursor-pointer"
-              >
-                <Compass size={11} className="text-amber-400" />
-                <span>Virtual Tour</span>
-              </button>
-            ) : (
-              <a
-                href={siteConfig.virtualTourUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hidden md:flex items-center gap-1 text-slate-300 hover:text-amber-400 transition-colors"
-              >
-                <Compass size={11} className="text-amber-400" />
-                <span>Virtual Tour</span>
-              </a>
-            )}
+          {/* Desktop Nav Links */}
+          <nav className="hidden lg:flex items-center gap-0.5">
+            {navLinks.map((link) => {
+              const isActive = `#${activeSectionId}` === link.href;
+              return (
+                <button
+                  key={link.href}
+                  onClick={() => navTo(link.href)}
+                  className="relative px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer group"
+                  style={{ color: isActive ? activeTheme.accent : "#94a3b8" }}
+                >
+                  {link.label}
+                  {isActive && (
+                    <motion.div
+                      layoutId="nav-indicator"
+                      className="absolute inset-0 rounded-lg"
+                      style={{ background: `rgba(${activeTheme.accentRgb},0.10)` }}
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                </button>
+              );
+            })}
+          </nav>
+
+          {/* Right Actions */}
+          <div className="flex items-center gap-2 shrink-0">
+            {/* Section Indicator Pill */}
+            <span
+              className="hidden xl:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border transition-all duration-600"
+              style={{ color: activeTheme.accent, borderColor: `rgba(${activeTheme.accentRgb},0.25)`, background: `rgba(${activeTheme.accentRgb},0.08)` }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full pulse-dot" style={{ background: activeTheme.accent }} />
+              {activeTheme.label}
+            </span>
+
+            {/* Virtual Tour */}
+            <button
+              onClick={onOpenTour}
+              className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white transition-colors cursor-pointer"
+              style={{ "--hover-bg": `rgba(${activeTheme.accentRgb},0.10)` } as React.CSSProperties}
+            >
+              <Compass size={13} style={{ color: activeTheme.accent }} />
+              <span>Tour</span>
+            </button>
+
+            {/* Phone */}
+            <a href={`tel:${siteConfig.helpline}`}
+               className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white transition-colors"
+            >
+              <Phone size={13} style={{ color: activeTheme.accent }} />
+              <span className="hidden lg:inline">{siteConfig.helpline}</span>
+            </a>
 
             {/* Theme Toggle */}
             {mounted && (
               <button
                 onClick={toggleTheme}
-                className="p-1 rounded hover:bg-slate-800 text-slate-300 hover:text-amber-400 transition-colors"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-white transition-colors cursor-pointer"
                 aria-label="Toggle theme"
               >
-                {theme === "dark" ? <Sun size={12} /> : <Moon size={12} />}
+                {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
               </button>
             )}
-          </div>
-        </div>
-      </div>
 
-      {/* ─── Main Navbar (Tailored Height for Desktop/Laptop) ──────── */}
-      <div
-        className={`transition-all duration-300 ${
-          scrolled
-            ? "bg-slate-950/95 backdrop-blur-md shadow-lg shadow-black/20 border-b border-slate-800/80 py-2"
-            : "bg-slate-950/85 backdrop-blur-sm border-b border-white/5 py-2.5"
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between gap-4">
-            {/* School Brand / Crest */}
+            {/* Apply CTA */}
             <a
-              href="#hero"
-              onClick={(e) => {
-                e.preventDefault();
-                handleNavClick("#hero");
+              href={siteConfig.admissionsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-slate-950 text-xs font-black shadow-md transition-all hover:scale-[1.03] active:scale-[0.97]"
+              style={{
+                background: `linear-gradient(135deg, ${activeTheme.accent}, color-mix(in srgb, ${activeTheme.accent} 80%, white))`,
+                boxShadow: `0 4px 14px rgba(${activeTheme.accentRgb},0.30)`,
+                transition: "background 600ms ease, box-shadow 200ms ease, transform 200ms ease",
               }}
-              className="flex items-center gap-2.5 group cursor-pointer"
             >
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 via-amber-500 to-orange-600 flex items-center justify-center text-slate-950 font-black shadow-md shadow-amber-500/20 group-hover:scale-105 transition-transform duration-200">
-                <GraduationCap size={20} className="text-slate-950" />
-              </div>
-              <div>
-                <div className="flex items-center gap-1.5">
-                  <span className="font-extrabold text-sm sm:text-base tracking-tight text-white group-hover:text-amber-400 transition-colors">
-                    TULAS
-                  </span>
-                  <span className="text-[10px] font-bold px-1 py-0.5 rounded bg-amber-400/10 text-amber-400 border border-amber-400/20 uppercase tracking-wider">
-                    School
-                  </span>
-                </div>
-                <p className="text-[10px] text-slate-400 tracking-wide font-medium">
-                  International Boarding · Dehradun
-                </p>
-              </div>
+              <span>Apply Now</span>
+              <ArrowRight size={12} />
             </a>
 
-            {/* Desktop Navigation Links */}
-            <nav className="hidden lg:flex items-center gap-1">
-              {navLinks.map((link) => (
-                <button
-                  key={link.href}
-                  onClick={() => handleNavClick(link.href)}
-                  className="px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-200 hover:text-amber-400 hover:bg-white/5 transition-all duration-200 cursor-pointer"
-                >
-                  {link.label}
-                </button>
-              ))}
-            </nav>
-
-            {/* Right Action CTAs */}
-            <div className="flex items-center gap-2.5">
-              <a
-                href="#admissions"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNavClick("#admissions");
-                }}
-                className="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-200 border border-slate-700 hover:border-amber-400/50 hover:text-amber-400 transition-all duration-200"
-              >
-                <span>Enquire</span>
-              </a>
-
-              <a
-                href={siteConfig.admissionsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 via-amber-400 to-orange-500 text-slate-950 text-xs font-black shadow-md shadow-amber-500/25 hover:shadow-amber-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
-              >
-                <span>Apply Now</span>
-                <ArrowRight size={13} />
-              </a>
-
-              {/* Mobile Menu Toggle Button */}
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                className="lg:hidden p-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
-                aria-label="Toggle mobile menu"
-              >
-                {isOpen ? <X size={20} /> : <Menu size={20} />}
-              </button>
-            </div>
+            {/* Mobile hamburger */}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-white transition-colors cursor-pointer"
+            >
+              {isOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
           </div>
         </div>
-      </div>
+      </motion.div>
 
-      {/* ─── Mobile Dropdown Menu ───────────────────────────────────── */}
+      {/* ── Mobile Drawer ───────────────────────────────────────── */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -202,36 +185,39 @@ export default function Navbar({ onOpenTour }: NavbarProps) {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25 }}
-            className="lg:hidden bg-slate-950/98 backdrop-blur-xl border-b border-slate-800 overflow-hidden"
+            className="lg:hidden bg-slate-950/97 backdrop-blur-2xl border-b overflow-hidden"
+            style={{ borderColor: `rgba(${activeTheme.accentRgb},0.15)` }}
           >
-            <div className="max-w-7xl mx-auto px-4 py-5 space-y-2">
+            <div className="max-w-7xl mx-auto px-4 py-5 space-y-1.5">
               {navLinks.map((link) => (
                 <button
                   key={link.href}
-                  onClick={() => handleNavClick(link.href)}
-                  className="w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-200 hover:bg-amber-400/10 hover:text-amber-400 transition-colors flex items-center justify-between"
+                  onClick={() => navTo(link.href)}
+                  className="w-full text-left px-4 py-2.5 rounded-xl text-xs font-semibold transition-colors flex items-center justify-between cursor-pointer hover:bg-white/5"
+                  style={{ color: `#${activeSectionId}` === link.href ? activeTheme.accent : "#94a3b8" }}
                 >
-                  <span>{link.label}</span>
-                  <span className="text-[11px] text-slate-500">{link.desc}</span>
+                  {link.label}
+                  <span className="text-[10px] text-slate-600">{link.desc}</span>
                 </button>
               ))}
 
-              <div className="pt-3 border-t border-slate-800 grid grid-cols-2 gap-2">
+              <div className="pt-4 border-t grid grid-cols-2 gap-2"
+                   style={{ borderColor: `rgba(${activeTheme.accentRgb},0.12)` }}>
                 <a
                   href={`tel:${siteConfig.helpline}`}
-                  className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-200 text-xs font-semibold"
+                  className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-semibold text-slate-200 bg-white/5"
                 >
-                  <Phone size={12} className="text-amber-400" />
+                  <Phone size={13} style={{ color: activeTheme.accent }} />
                   Call Us
                 </a>
                 <a
                   href={siteConfig.admissionsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-amber-500 text-slate-950 text-xs font-bold"
+                  className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-slate-950 text-xs font-bold"
+                  style={{ background: activeTheme.accent }}
                 >
-                  Apply Online
-                  <ArrowRight size={12} />
+                  Apply Online <ArrowRight size={12} />
                 </a>
               </div>
             </div>

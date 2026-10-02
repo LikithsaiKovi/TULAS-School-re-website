@@ -11,6 +11,8 @@ import {
   Compass,
 } from "lucide-react";
 import { siteConfig, keyStats, heroMedia } from "@/data";
+import { CountUp } from "@/components/animation/CountUp";
+import { MagneticButton } from "@/components/animation/MagneticButton";
 
 const ROTATING_WORDS = ["Excellence.", "Character.", "Leadership.", "Ambition.", "Innovation."];
 
@@ -32,12 +34,12 @@ export default function HeroSection({ onOpenTour, onOpenCalculator }: HeroSectio
   return (
     <section
       id="hero"
-      className="relative min-h-[100svh] lg:h-[100svh] lg:max-h-[900px] flex flex-col justify-between pt-24 lg:pt-28 pb-4 sm:pb-6 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white overflow-hidden"
+      data-section-theme="hero"
+      className="relative min-h-[100svh] lg:h-[100svh] lg:max-h-[900px] flex flex-col justify-between pt-24 lg:pt-28 pb-4 sm:pb-6 text-white overflow-hidden"
     >
       {/* ─── Ambient Glow Backgrounds ─────────────────────────────── */}
       <div className="absolute top-12 left-1/4 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-1/4 right-10 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:36px_36px] pointer-events-none opacity-40" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full my-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
@@ -91,15 +93,17 @@ export default function HeroSection({ onOpenTour, onOpenCalculator }: HeroSectio
               transition={{ duration: 0.5, delay: 0.2 }}
               className="flex flex-wrap items-center gap-3 pt-1"
             >
-              <a
-                href={siteConfig.admissionsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-orange-500 text-slate-950 font-black text-xs sm:text-sm shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
-              >
-                <span>Apply for Admissions 2025–26</span>
-                <ArrowRight size={14} />
-              </a>
+              <MagneticButton strength={0.25}>
+                <a
+                  href={siteConfig.admissionsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-orange-500 text-slate-950 font-black text-xs sm:text-sm shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+                >
+                  <span>Apply for Admissions 2025–26</span>
+                  <ArrowRight size={14} />
+                </a>
+              </MagneticButton>
 
               {onOpenTour ? (
                 <button
@@ -196,12 +200,22 @@ export default function HeroSection({ onOpenTour, onOpenCalculator }: HeroSectio
                   <p className="text-[10px] text-slate-400">Day & Residential Boarding</p>
                 </div>
               </div>
-              <a
-                href="#admissions"
-                className="px-3 py-1.5 rounded-lg bg-amber-400 text-slate-950 text-[11px] font-bold hover:bg-amber-300 transition-colors shrink-0"
-              >
-                Inquire Now
-              </a>
+              {onOpenCalculator ? (
+                <button
+                  type="button"
+                  onClick={onOpenCalculator}
+                  className="px-3 py-1.5 rounded-lg bg-amber-400 text-slate-950 text-[11px] font-bold hover:bg-amber-300 transition-colors shrink-0 cursor-pointer"
+                >
+                  Fee Estimator
+                </button>
+              ) : (
+                <a
+                  href="#admissions"
+                  className="px-3 py-1.5 rounded-lg bg-amber-400 text-slate-950 text-[11px] font-bold hover:bg-amber-300 transition-colors shrink-0"
+                >
+                  Inquire Now
+                </a>
+              )}
             </div>
 
           </motion.div>
@@ -209,10 +223,17 @@ export default function HeroSection({ onOpenTour, onOpenCalculator }: HeroSectio
         </div>
       </div>
 
-      {/* ─── Key Stats Ribbon (Directly Inside First Fold for Laptops) ─── */}
+      {/* ─── Key Stats Ribbon with 60fps CountUp ─── */}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-4 border-t border-slate-800/60">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
-          {keyStats.map((stat, i) => (
+          {[
+            { target: 35, suffix: "+", label: "Years of Educational Legacy" },
+            { target: 22, suffix: " Acres", label: "Green Campus in Doon Valley" },
+            { target: 16, suffix: "+", label: "Sports Facilities with Coaches" },
+            { target: 8, prefix: "", suffix: ":1", label: "Student-to-Teacher Ratio" },
+            { target: 100, suffix: "%", label: "CBSE Board Examination Pass Rate" },
+            { target: 5000, suffix: "+", label: "Distinguished Alumni Worldwide" },
+          ].map((stat, i) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 10 }}
@@ -221,7 +242,12 @@ export default function HeroSection({ onOpenTour, onOpenCalculator }: HeroSectio
               className="py-2 px-2.5 rounded-xl bg-slate-900/70 border border-slate-800/80 text-center hover:border-amber-500/30 transition-all duration-150"
             >
               <div className="text-lg sm:text-xl lg:text-xl xl:text-2xl font-black text-amber-400 tracking-tight leading-none mb-1">
-                {stat.value}
+                <CountUp
+                  to={stat.target}
+                  prefix={stat.prefix || ""}
+                  suffix={stat.suffix || ""}
+                  duration={1600 + i * 150}
+                />
               </div>
               <div className="text-[10px] sm:text-[11px] text-slate-400 font-medium leading-tight truncate">
                 {stat.label}
