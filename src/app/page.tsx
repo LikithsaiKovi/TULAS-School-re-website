@@ -16,6 +16,11 @@ import CampusLocationSection from "@/components/sections/CampusLocationSection";
 import FAQSection from "@/components/sections/FAQSection";
 import CTASection from "@/components/sections/CTASection";
 
+// Modern Tech Components
+import ParticleCanvas from "@/components/tech/ParticleCanvas";
+import CampusTelemetryBar from "@/components/tech/CampusTelemetryBar";
+import AIAssistantWidget from "@/components/tech/AIAssistantWidget";
+
 // Advanced Interactive Modals & Floating Components
 import VirtualTourModal from "@/components/ui/VirtualTourModal";
 import FeeCalculatorModal from "@/components/ui/FeeCalculatorModal";
@@ -25,38 +30,41 @@ import LiveSocialProofToast from "@/components/ui/LiveSocialProofToast";
 /**
  * Tulas International School (TIS) Homepage Redesign
  *
- * Standout Features Implemented:
- * 1. Custom Magnetic Spring Cursor (Feature A)
- * 2. Scroll-Triggered Staggered Reveals (Feature B)
- * 3. Animated Dark/Light Theme Switcher (Feature C)
- * 4. Spring-Physics Scroll Progress Bar (Feature D)
- *
- * Advanced Components & Interactive Tools:
- * - 360° Virtual Campus Tour Modal
- * - Interactive Tuition & Scholarship Estimator Modal
- * - Floating Quick Access Dock (Call, Tour, Fee, Admissions, Scroll-to-top)
- * - Himalayan Foothills Campus Connectivity & Transit Map
- * - Live Admissions Social Proof Activity Toast
+ * Modern Tech Architecture:
+ * 1. Interactive HTML5 Particle Canvas (Mouse-reactive constellations synced to section themes)
+ * 2. Himalayan Telemetry Bar (Live IST clock, AQI monitor, Web Audio API mountain breeze generator)
+ * 3. TIS AI Admissions Copilot (Intelligent conversational admissions assistant)
+ * 4. Aceternity Spotlight Cards (Mouse-following dynamic radial glow borders)
+ * 5. Dynamic Section-Aware Theme Engine (GPU-composited morphing via IntersectionObserver)
+ * 6. 60 FPS CountUp Statistics & Magnetic Button physics
+ * 7. 360° Virtual Campus Tour & Interactive Fee/Scholarship Estimator
  */
 export default function HomePage() {
   const [isTourOpen, setIsTourOpen] = useState(false);
   const [isCalculatorOpen, setIsCalculatorOpen] = useState(false);
 
   return (
-    <div className="min-h-screen text-slate-100 flex flex-col selection:bg-amber-400/30 selection:text-white">
+    <div className="min-h-screen text-slate-100 flex flex-col selection:bg-amber-400/30 selection:text-white relative">
+      {/* ── Interactive Particle Constellation Canvas ── */}
+      <ParticleCanvas />
+
       {/* ── Global Overlays & Motion Drivers ────────── */}
       <ScrollProgressBar />
       <CustomCursor />
 
-      {/* ── Navigation (with 360 Tour Trigger) ──────── */}
+      {/* ── Navigation (with Announcement Ticker & Tour Trigger) ── */}
       <Navbar onOpenTour={() => setIsTourOpen(true)} />
 
       {/* ── Main Content Sections ───────────────────── */}
-      <main className="flex-1 w-full">
+      <main className="flex-1 w-full relative z-10">
         <HeroSection
           onOpenTour={() => setIsTourOpen(true)}
           onOpenCalculator={() => setIsCalculatorOpen(true)}
         />
+        
+        {/* Himalayan Telemetry Ribbon right below the Hero */}
+        <CampusTelemetryBar />
+
         <AboutSection />
         <AcademicsSection />
         <BoardingSection />
@@ -77,6 +85,12 @@ export default function HomePage() {
         onOpenCalculator={() => setIsCalculatorOpen(true)}
       />
       <LiveSocialProofToast />
+
+      {/* ── TIS Admissions AI Copilot ──────────────── */}
+      <AIAssistantWidget
+        onOpenTour={() => setIsTourOpen(true)}
+        onOpenCalculator={() => setIsCalculatorOpen(true)}
+      />
 
       {/* ── Interactive Modals ──────────────────────── */}
       <VirtualTourModal
