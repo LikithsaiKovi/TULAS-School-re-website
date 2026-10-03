@@ -79,7 +79,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      <ScrollReveal direction="right"><section id="learning" className="learning-section section-pad">
+      <ScrollReveal><section id="learning" className="learning-section section-pad">
         <div className="section-kicker section-kicker-light"><span>02</span><span>Learning</span></div>
         <div className="learning-heading">
           <h2>Think deeply.<br /><em>Try something new.</em></h2>
@@ -103,7 +103,7 @@ export default function HomePage() {
 
       <HomeHighlights />
 
-      <ScrollReveal direction="left"><section id="visit" className="visit-section">
+      <ScrollReveal><section id="visit" className="visit-section">
         <div className="visit-copy">
           <div className="section-kicker section-kicker-light"><span>11</span><span>Come see for yourself</span></div>
           <h2>Some things<br />are best <em>experienced.</em></h2>

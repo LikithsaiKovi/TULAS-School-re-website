@@ -351,7 +351,7 @@ h1 em, h2 em { font-weight: 400; color: var(--accent); }
 .sports-visual-note { color: #d1ddd0bd; font-size: 11px; letter-spacing: .04em; }
 .sports-visual-watermark { position: absolute; right: 4%; bottom: 4%; color: #ffffff0b; font: italic 430px/.8 var(--serif); }
 .sports-visual-orbit { position: absolute; top: 18%; left: 36%; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; width: clamp(140px, 15vw, 215px); aspect-ratio: 1; border: 1px solid #d4e3bd55; border-radius: 50%; color: #e1e8d8; font-size: 9px; letter-spacing: .2em; animation: stamp-drift 9s ease-in-out infinite; }
-.sports-content { padding: 70px 9vw 64px 5.4vw; }
+.sports-content { padding: 70px 11.4vw 64px 5.4vw; }
 .sports-content-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; }
 .sports-content-head h2 { margin: 13px 0 0; font: 400 clamp(43px, 4.3vw, 61px)/.95 var(--serif); letter-spacing: -.055em; }
 .sports-content-head h2 em { color: var(--tis-teal-light); }
@@ -482,14 +482,14 @@ h1 em, h2 em { font-weight: 400; color: var(--accent); }
   .site-header { padding: 0 5vw; }
   .primary-nav { gap: 17px; }
   .hero-section { min-height: 600px; }
-  .hero-copy { padding-left: 7vw; }
+  .hero-copy { padding-left: 5.7vw; }
   .hero-copy h1 { font-size: clamp(58px,7.5vw,78px); }
   .section-pad, .visit-section { padding-left: 7vw; padding-right: 7vw; }
   .intro-grid { gap: 5vw; }
   .academic-panel, .boarding-panel, .faq-block, .admissions-steps { gap: 5vw; }
   .site-footer { flex-wrap: wrap; }
   .sports-visual { padding-left: 7vw; }
-  .sports-content { padding-right: 6vw; }
+  .sports-content { padding-right: 7vw; }
   .numbers-grid { grid-template-columns: repeat(3,1fr); }
   .numbers-grid article:nth-child(3) { border-right: 0; }
   .numbers-grid article:nth-child(4), .numbers-grid article:nth-child(5) { border-top: 1px solid var(--line); }
@@ -509,7 +509,7 @@ h1 em, h2 em { font-weight: 400; color: var(--accent); }
   .primary-nav a { flex: 0 0 auto; font-size: 10px; }
   .header-apply { padding: 11px 12px; font-size: 10px; }
   .hero-section { height: auto; max-height: none; min-height: auto; grid-template-columns: 1fr; }
-  .hero-copy { min-height: 475px; padding: 70px 7vw 42px; }
+  .hero-copy { min-height: 475px; padding: 70px 5vw 42px; }
   .hero-copy h1 { font-size: clamp(58px, 14vw, 82px); }
   .hero-intro { max-width: 290px; font-size: 13px; }
   .hero-note { margin-top: 37px; }
