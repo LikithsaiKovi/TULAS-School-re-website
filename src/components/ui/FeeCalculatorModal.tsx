@@ -5,10 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
   Calculator,
-  Sparkles,
   CheckCircle2,
   ArrowRight,
-  ShieldCheck,
   Download,
   Award,
 } from "lucide-react";
@@ -154,7 +152,7 @@ export default function FeeCalculatorModal({ isOpen, onClose }: FeeCalculatorMod
                 </label>
                 <select
                   value={meritDiscount}
-                  onChange={(e) => setMeritDiscount(e.target.value as any)}
+                  onChange={(e) => setMeritDiscount(e.target.value as "none" | "academic" | "sports")}
                   className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs font-semibold text-white focus:outline-none focus:border-amber-400"
                 >
                   <option value="academic">Academic Merit (90%+ Marks) - 15%</option>

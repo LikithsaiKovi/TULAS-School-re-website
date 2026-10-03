@@ -6,13 +6,7 @@ import {
   Bot,
   X,
   Send,
-  Sparkles,
-  ArrowRight,
-  Phone,
-  Compass,
-  CheckCircle2,
 } from "lucide-react";
-import { siteConfig } from "@/data";
 
 interface Message {
   sender: "ai" | "user";
@@ -37,13 +31,7 @@ const KNOWLEDGE_BASE: Record<string, string> = {
   default: "Tulas International School (TIS) is a premier CBSE co-ed boarding school in Dehradun, Uttarakhand for Classes IV through XII. Would you like to explore our 16+ Sports Academy, calculate fees, or speak to our Senior Admissions Counselor?",
 };
 
-export default function AIAssistantWidget({
-  onOpenTour,
-  onOpenCalculator,
-}: {
-  onOpenTour?: () => void;
-  onOpenCalculator?: () => void;
-}) {
+export default function AIAssistantWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([

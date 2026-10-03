@@ -1,144 +1,101 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Trophy, Sparkles, Check, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import ScrollReveal from "@/components/animation/ScrollReveal";
-import { sportsList, sportsCategories, heroMedia, siteConfig } from "@/data";
+
+const SPORTS_ITEMS = [
+  { name: "Horse Riding", category: "Equestrian", desc: "2.5-acre arena with 14 thoroughbred horses & certified trainers", icon: "🏇" },
+  { name: "Archery Range", category: "Olympic", desc: "Professional outdoor & indoor Olympic target range", icon: "🏹" },
+  { name: "Shooting Range", category: "Target", desc: "10m electronic air rifle & pistol indoor range", icon: "🎯" },
+  { name: "Swimming", category: "Aquatics", desc: "Half-Olympic heated pool with certified life guards", icon: "🏊" },
+  { name: "Lawn Tennis", category: "Racquet", desc: "Synthetic all-weather floodlit courts", icon: "🎾" },
+  { name: "Squash", category: "Racquet", desc: "Glass-back international dimension wooden courts", icon: "🏸" },
+  { name: "Badminton", category: "Indoor", desc: "4 wooden courts with professional rubberized grip", icon: "🏸" },
+  { name: "Cricket Academy", category: "Team", desc: "Full pitch with turf nets and bowling machines", icon: "🏏" },
+  { name: "Football Ground", category: "Field", desc: "Full-size lush Bermuda grass pitch", icon: "⚽" },
+  { name: "Basketball", category: "Court", desc: "Floodlit synthetic courts with spring hoops", icon: "🏀" },
+  { name: "Volleyball", category: "Court", desc: "Outdoor sand & clay courts", icon: "🏐" },
+  { name: "Taekwondo", category: "Martial Arts", desc: "Black-belt certified coaches for self-discipline", icon: "🥋" },
+  { name: "Hockey", category: "Field", desc: "AstroTurf standard multi-purpose sports surface", icon: "🏑" },
+  { name: "Cycling Track", category: "Outdoor", desc: "Perimeter eco-trail around the 22-acre campus", icon: "🚴" },
+  { name: "Table Tennis", category: "Indoor", desc: "Stiga tables in indoor air-cooled sports arena", icon: "🏓" },
+  { name: "Billiards", category: "Indoor", desc: "Championship snooker & pool tables in recreation club", icon: "🎱" },
+];
 
 export default function SportsSection() {
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [filter, setFilter] = useState("All");
 
-  const filteredSports =
-    selectedCategory === "all"
-      ? sportsList
-      : sportsList.filter((s) => s.category === selectedCategory);
+  const categories = ["All", "Equestrian", "Olympic", "Racquet", "Team", "Martial Arts"];
+  const filtered = filter === "All"
+    ? SPORTS_ITEMS
+    : SPORTS_ITEMS.filter((s) => s.category.toLowerCase().includes(filter.toLowerCase()));
 
   return (
-    <section
-      id="sports"
-      data-section-theme="sports"
-      className="py-16 lg:py-20 text-white relative overflow-hidden"
-    >
-      {/* Background Glow */}
-      <div className="absolute top-1/2 right-10 w-[500px] h-[500px] bg-amber-500/5 rounded-full blur-[140px] pointer-events-none" />
-
+    <section id="sports" className="py-20 bg-white dark:bg-[#0c0507] text-[#1c1c1c] dark:text-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Header */}
-        <div className="max-w-3xl mb-14">
+        {/* Authentic Header from tis.edu.in */}
+        <div className="text-center max-w-3xl mx-auto mb-14">
           <ScrollReveal>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-bold uppercase tracking-wider mb-4">
-              <Trophy size={14} />
-              <span>Athletics & Physical Fitness</span>
-            </div>
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.1}>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight mb-4">
-              Sports Isn't Just an Activity.{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-orange-400">
-                It's Our Foundation.
-              </span>
+            <p className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#b90124] tracking-tight">
+              Sports ?
+            </p>
+            <h2 className="text-2xl sm:text-4xl font-extrabold mt-2 leading-tight">
+              It&apos;s not just a <span className="text-[#007a83] dark:text-[#60bab1]">facility.</span> At Tulas it&apos;s the{" "}
+              <span className="text-[#007a83] dark:text-[#60bab1]">foundation!</span>
             </h2>
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.15}>
-            <p className="text-base sm:text-lg text-slate-300">
-              16+ Olympic and modern sports curated to instill grit, stamina, and team spirit.
-              Guided by nationally certified trainers, our athletes compete at district, state, and national CBSE meets.
+            <p className="text-base sm:text-lg text-[#5f5f5f] dark:text-slate-300 mt-4 leading-relaxed">
+              <strong className="text-[#b90124] font-bold">16+ sports</strong> curated to bring joy, resilience, and lifelong discipline to your child&apos;s life.
             </p>
           </ScrollReveal>
-        </div>
 
-        {/* Visual Highlights: Equestrian & Aquatics (2 Visual Cards) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-          <div className="relative rounded-3xl overflow-hidden border border-slate-800 shadow-xl group">
-            <div className="relative h-64 sm:h-72 w-full overflow-hidden">
-              <img
-                src={heroMedia.riding}
-                alt="Equestrian Horse Riding Arena TIS Dehradun"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
-            </div>
-            <div className="absolute bottom-6 left-6 right-6">
-              <span className="px-3 py-1 rounded-full bg-amber-500 text-slate-950 text-xs font-black uppercase tracking-wider">
-                Signature Feature
-              </span>
-              <h3 className="text-xl font-bold text-white mt-2">
-                Equestrian Academy & Riding Arenas
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-300 mt-1">
-                Private stables, Thoroughbred horses & certified trainers for dressage and show jumping.
-              </p>
-            </div>
-          </div>
-
-          <div className="relative rounded-3xl overflow-hidden border border-slate-800 shadow-xl group">
-            <div className="relative h-64 sm:h-72 w-full overflow-hidden">
-              <img
-                src={heroMedia.sportsGround}
-                alt="Olympic Standard Swimming and Sports at TIS"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
-            </div>
-            <div className="absolute bottom-6 left-6 right-6">
-              <span className="px-3 py-1 rounded-full bg-blue-500 text-white text-xs font-black uppercase tracking-wider">
-                Aquatics & Turf
-              </span>
-              <h3 className="text-xl font-bold text-white mt-2">
-                Half-Olympic Swimming Pool & Cricket Turf
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-300 mt-1">
-                All-weather temperature regulated aquatic center with certified lifeguards and stroke coaches.
-              </p>
-            </div>
+          {/* Filter Pills */}
+          <div className="flex flex-wrap justify-center gap-2 mt-8">
+            {categories.map((c) => (
+              <button
+                key={c}
+                onClick={() => setFilter(c)}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                  filter === c
+                    ? "bg-[#b90124] text-white shadow-md shadow-[#b90124]/30"
+                    : "bg-slate-100 dark:bg-slate-800 text-[#5f5f5f] dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
+                }`}
+              >
+                {c}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Filter Categories */}
-        <div className="flex flex-wrap gap-2.5 mb-10">
-          {sportsCategories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setSelectedCategory(cat.id)}
-              className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer ${
-                selectedCategory === cat.id
-                  ? "bg-amber-400 text-slate-950 shadow-md shadow-amber-400/20"
-                  : "bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700"
-              }`}
-            >
-              {cat.label}
-            </button>
+        {/* 16 Sports Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+          {filtered.map((sport, i) => (
+            <ScrollReveal key={sport.name} delay={(i % 4) * 0.08}>
+              <div className="bg-[#f8f5f0] dark:bg-slate-900/80 rounded-2xl p-5 border border-black/5 dark:border-white/5 hover:border-[#b90124]/30 hover:shadow-xl transition-all duration-300 flex flex-col justify-between group h-full">
+                <div>
+                  <div className="w-12 h-12 rounded-xl bg-white dark:bg-slate-800 flex items-center justify-center text-2xl shadow-sm mb-4 group-hover:scale-110 transition-transform">
+                    {sport.icon}
+                  </div>
+                  <div className="text-[10px] font-extrabold text-[#007a83] dark:text-[#60bab1] uppercase tracking-wider mb-1">
+                    {sport.category}
+                  </div>
+                  <h3 className="text-base sm:text-lg font-black text-[#1c1c1c] dark:text-white">
+                    {sport.name}
+                  </h3>
+                  <p className="text-xs text-[#5f5f5f] dark:text-slate-400 mt-2 leading-relaxed">
+                    {sport.desc}
+                  </p>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-black/5 dark:border-white/5 flex items-center justify-between text-[11px] font-bold text-[#b90124]">
+                  <span>NIS Coaching</span>
+                  <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+            </ScrollReveal>
           ))}
         </div>
-
-        {/* Sports Cards Grid */}
-        <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <AnimatePresence>
-            {filteredSports.map((sport) => (
-              <motion.div
-                layout
-                key={sport.name}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.2 }}
-                className="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-amber-400/40 hover:bg-slate-900 transition-all duration-200 group"
-              >
-                <div className="text-3xl mb-3">{sport.icon}</div>
-                <h4 className="text-base font-bold text-white group-hover:text-amber-400 transition-colors mb-1">
-                  {sport.name}
-                </h4>
-                <p className="text-xs text-slate-400 leading-relaxed">
-                  {sport.desc}
-                </p>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
 
       </div>
     </section>

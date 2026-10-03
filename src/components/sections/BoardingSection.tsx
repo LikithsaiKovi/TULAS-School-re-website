@@ -1,23 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
 import {
   Home,
-  Utensils,
-  HeartPulse,
-  Shield,
   Clock,
-  Sparkles,
   CheckCircle2,
-  Compass,
 } from "lucide-react";
 import ScrollReveal from "@/components/animation/ScrollReveal";
-import { boardingPillars, dailyRoutine, heroMedia, siteConfig } from "@/data";
+import { boardingPillars, dailyRoutine } from "@/data";
 
 export default function BoardingSection() {
-  const [selectedRoutineIndex, setSelectedRoutineIndex] = useState(0);
-
   return (
     <section
       id="boarding"
@@ -99,7 +90,7 @@ export default function BoardingSection() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {dailyRoutine.slice(0, 4).map((item, idx) => (
+            {dailyRoutine.slice(0, 4).map((item) => (
               <div
                 key={item.time}
                 className="p-5 rounded-2xl bg-slate-950/70 border border-slate-800 hover:border-amber-400/40 transition-colors"

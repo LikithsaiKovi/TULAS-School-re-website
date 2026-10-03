@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   GraduationCap,
-  Sparkles,
   BookOpen,
   FlaskConical,
   Award,
@@ -133,9 +133,12 @@ export default function AcademicsSection() {
               {/* Right Column: Visual Photo Card (5 cols) */}
               <div className="lg:col-span-5">
                 <div className="relative rounded-2xl overflow-hidden border border-slate-800 shadow-xl group">
-                  <img
+                  <Image
                     src={currentTier.image}
                     alt={currentTier.title}
+                    width={800}
+                    height={600}
+                    unoptimized
                     className="w-full h-80 sm:h-96 object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />

@@ -8,7 +8,6 @@ import {
   Calculator,
   ArrowUp,
   Sparkles,
-  Send,
 } from "lucide-react";
 import { siteConfig } from "@/data";
 

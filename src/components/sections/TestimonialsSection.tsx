@@ -9,11 +9,10 @@ import {
   ChevronRight,
   Sparkles,
   Award,
-  CheckCircle2,
   GraduationCap,
 } from "lucide-react";
 import ScrollReveal from "@/components/animation/ScrollReveal";
-import { testimonials, awards, siteConfig } from "@/data";
+import { testimonials, awards } from "@/data";
 
 const placements = [
   "IIT Roorkee",
@@ -95,7 +94,7 @@ export default function TestimonialsSection() {
                   className="space-y-6"
                 >
                   <p className="text-base sm:text-lg text-slate-200 leading-relaxed italic">
-                    "{testimonials[currentIndex].quote}"
+                    &ldquo;{testimonials[currentIndex].quote}&rdquo;
                   </p>
 
                   <div className="pt-6 border-t border-slate-800 flex items-center justify-between gap-4">
@@ -164,11 +163,11 @@ export default function TestimonialsSection() {
                 <span>Accolades & Recognition</span>
               </div>
               <h3 className="text-xl font-bold text-white">
-                Consistently Ranked Among India's Top Boarding Schools
+                Consistently Ranked Among India&apos;s Top Boarding Schools
               </h3>
             </div>
 
-            {awards.map((award, i) => (
+            {awards.map((award) => (
               <div
                 key={award}
                 className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-amber-400/30 transition-colors flex items-center gap-3.5"

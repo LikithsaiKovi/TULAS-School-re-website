@@ -1,17 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
   Compass,
   Sparkles,
-  MapPin,
-  CheckCircle2,
-  Calendar,
   ArrowRight,
-  Maximize2,
-  Users,
 } from "lucide-react";
 import { siteConfig } from "@/data";
 
@@ -166,9 +162,12 @@ export default function VirtualTourModal({ isOpen, onClose }: VirtualTourModalPr
               {/* Photo Card with 360 Indicator (7 cols) */}
               <div className="lg:col-span-7 relative rounded-2xl overflow-hidden border border-slate-700 bg-slate-950 shadow-xl group">
                 <div className="relative h-64 sm:h-80 w-full overflow-hidden">
-                  <img
+                  <Image
                     src={current.image}
                     alt={current.name}
+                    width={1200}
+                    height={800}
+                    unoptimized
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />

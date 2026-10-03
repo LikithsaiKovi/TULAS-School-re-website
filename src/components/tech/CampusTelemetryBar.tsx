@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Volume2, VolumeX, Wind, Clock, MapPin, Sparkles } from "lucide-react";
-import { useSectionTheme } from "@/contexts/SectionThemeContext";
+import { Volume2, VolumeX, Wind, Clock, MapPin } from "lucide-react";
 
 /**
  * CampusTelemetryBar — Live Environmental Telemetry & Ambient Soundscape
@@ -17,7 +16,6 @@ export default function CampusTelemetryBar() {
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const audioCtxRef = useRef<AudioContext | null>(null);
   const noiseNodeRef = useRef<AudioNode | null>(null);
-  const { activeTheme } = useSectionTheme();
 
   // Clock in IST
   useEffect(() => {
@@ -48,7 +46,9 @@ export default function CampusTelemetryBar() {
       setIsPlayingAudio(false);
     } else {
       try {
-        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+        const AudioContextFallback = (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+        const AudioContextClass = window.AudioContext || AudioContextFallback;
+        if (!AudioContextClass) return;
         const ctx = new AudioContextClass();
         audioCtxRef.current = ctx;
 

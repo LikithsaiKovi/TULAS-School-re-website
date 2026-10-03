@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useSpring, useTransform } from "framer-motion";
 import { useScrollProgress } from "@/hooks/useScrollProgress";
 import { useSectionTheme } from "@/contexts/SectionThemeContext";
 

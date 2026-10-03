@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import {
   MapPin,
   Plane,
@@ -8,8 +7,6 @@ import {
   Mountain,
   Trees,
   Navigation,
-  Compass,
-  ArrowRight,
   Phone,
 } from "lucide-react";
 import ScrollReveal from "@/components/animation/ScrollReveal";

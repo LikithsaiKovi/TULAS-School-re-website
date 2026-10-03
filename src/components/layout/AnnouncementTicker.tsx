@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Zap, Bell, Trophy, Calendar } from "lucide-react";
 
 const ITEMS = [

@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, Phone, Compass, MapPin, ShieldCheck } from "lucide-react";
 import ScrollReveal from "@/components/animation/ScrollReveal";
 import { MagneticButton } from "@/components/animation/MagneticButton";

@@ -1,54 +1,37 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { motion, useInView } from "framer-motion";
-import { useRef, ReactNode } from "react";
+import { useRef } from "react";
 
-interface RevealProps {
+type Direction = "up" | "left" | "right";
+
+interface ScrollRevealProps {
   children: ReactNode;
-  delay?: number;
-  direction?: "up" | "down" | "left" | "right";
   className?: string;
-  duration?: number;
+  delay?: number;
+  direction?: Direction;
 }
 
-/**
- * ScrollReveal — Wraps children with a viewport-triggered entrance animation.
- * Uses `once: true` so elements animate in only the first time they enter view.
- */
+/** Reveals a section once when it enters the viewport, while respecting reduced motion. */
 export default function ScrollReveal({
   children,
+  className,
   delay = 0,
   direction = "up",
-  className = "",
-  duration = 0.5,
-}: RevealProps) {
+}: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
-
-  const offsets: Record<string, { x: number; y: number }> = {
-    up: { x: 0, y: 40 },
-    down: { x: 0, y: -40 },
-    left: { x: 40, y: 0 },
-    right: { x: -40, y: 0 },
-  };
-
-  const offset = offsets[direction];
+  const isInView = useInView(ref, { once: true, margin: "0px 0px -64px 0px" });
+  const hidden = direction === "left" ? { x: 22 } : direction === "right" ? { x: -22 } : { y: 22 };
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, x: offset.x, y: offset.y }}
-      animate={
-        isInView
-          ? { opacity: 1, x: 0, y: 0 }
-          : { opacity: 0, x: offset.x, y: offset.y }
-      }
-      transition={{
-        duration,
-        delay,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      className={className}
+      className={`scroll-reveal${className ? ` ${className}` : ""}`}
+      data-visible={isInView ? "true" : "false"}
+      initial={{ opacity: 0, ...hidden }}
+      animate={isInView ? { opacity: 1, x: 0, y: 0 } : { opacity: 0, ...hidden }}
+      transition={{ duration: 0.58, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </motion.div>
