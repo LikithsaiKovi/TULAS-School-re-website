@@ -95,7 +95,7 @@ a:focus-visible { outline: 2px solid #a3442c; outline-offset: 4px; }
 a:hover .arrow-icon { transform: translate(2px,-2px); }
 
 .hero-section { min-height: 700px; height: min(850px, calc(100svh - 102px)); max-height: 900px; display: grid; grid-template-columns: .94fr 1.06fr; position: relative; align-items: stretch; overflow: hidden; border-bottom: 1px solid var(--line); background: radial-gradient(ellipse at 9% 95%, color-mix(in srgb, var(--tis-teal) 6%, transparent), transparent 38%); }
-.hero-copy { padding: 8vh 2vw 7vh 11.4vw; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; position: relative; z-index: 4; }
+.hero-copy { padding: 8vh 2vw 7vh 5.7vw; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; position: relative; z-index: 4; }
 .eyebrow, .section-kicker { display: flex; align-items: center; gap: 11px; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 .eyebrow { margin: 0 0 30px; }
 .eyebrow-line { width: 25px; height: 1px; background: var(--tis-crimson); }
@@ -112,7 +112,7 @@ h1 em, h2 em { font-weight: 400; color: var(--accent); }
 .hero-note { margin-top: 53px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 10px; color: var(--muted); letter-spacing: .04em; }
 .note-dot { width: 6px; height: 6px; display: inline-block; margin-right: 7px; border-radius: 50%; background: var(--tis-teal); vertical-align: 1px; }
 .note-divider { padding: 0 8px; color: var(--tis-crimson); }
-.hero-visual { min-height: 100%; margin: 23px 24px 23px -48px; position: relative; isolation: isolate; overflow: hidden; border-radius: 210px 0 0 0; background: #afb8a6; box-shadow: 0 32px 90px #17271c24; perspective: 1200px; --spot-x: 50%; --spot-y: 45%; }
+.hero-visual { min-height: 100%; margin: 23px 5.7vw 23px -48px; position: relative; isolation: isolate; overflow: hidden; border-radius: 210px 0 0 0; background: #afb8a6; box-shadow: 0 32px 90px #17271c24; perspective: 1200px; --spot-x: 50%; --spot-y: 45%; }
 .hero-image-parallax { position: absolute; inset: -1.5%; transform-style: preserve-3d; }
 .hero-photo { object-fit: cover; object-position: center 42%; animation: image-arrive 1.15s cubic-bezier(.2,.65,.3,1) both; filter: saturate(.9) contrast(1.025); }
 .hero-visual::after { position: absolute; z-index: 1; inset: 0; content: ""; pointer-events: none; opacity: .55; background: radial-gradient(260px circle at var(--spot-x) var(--spot-y), #e7f3ca42, transparent 72%); mix-blend-mode: screen; transition: opacity .3s ease; }
